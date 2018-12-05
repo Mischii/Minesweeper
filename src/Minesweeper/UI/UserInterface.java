@@ -19,14 +19,18 @@ public class UserInterface {
 	public JFrame window = new JFrame();
 	public JPanel mainComponent = new JPanel();
 	private PlayField playField;
-	private Controller ctrl;
+	private Controller controller;
+	
+	public UserInterface(Controller ctrl) {
+		controller = ctrl;
+	}
 	
 	public void createUI() {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLayout(new FlowLayout());
 		GridLayout layout = new GridLayout(8,8);
 		mainComponent = new JPanel(layout);
-		playField = ctrl.generatePlayfield();
+		playField = controller.generatePlayfield();
 		addFieldsToMainComponent();
 		window.add(mainComponent);
 		window.pack();

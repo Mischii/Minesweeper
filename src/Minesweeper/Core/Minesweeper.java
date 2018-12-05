@@ -10,7 +10,7 @@ public class Minesweeper {
 		Controller controller = new Controller();
 		controller.generatePlayfield();
 		controller.generateMines();
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(controller);
 		ui.createUI();
 		/*while(controller.gameOver == false) {
 			//checkClick();

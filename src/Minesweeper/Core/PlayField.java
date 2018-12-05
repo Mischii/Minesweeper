@@ -10,6 +10,10 @@ public class PlayField {
 	public Controller controller;
   public Field[][] fields = new Field[8][8];
   
+  public PlayField(Controller ctrl) {
+	  controller = ctrl;
+  }
+  
   public Field setField(int x, int y) {
 	  fields[x][y] = new Field(x,y);
 	  fields[x][y].addMouseListener(new MouseListener() {
@@ -23,7 +27,7 @@ public class PlayField {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (SwingUtilities.isRightMouseButton(e)){
-					
+					controller.tagSelectedField(fields[x][y]);
 				} else if (SwingUtilities.isLeftMouseButton(e)){
 					controller.checkClick(fields[x][y]);
 				}

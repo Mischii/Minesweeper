@@ -6,8 +6,8 @@ import Minesweeper.UI.UserInterface;
 public class Controller {
 	
 
-	public PlayField playField = new PlayField();
-	public UserInterface ui = new UserInterface();
+	public PlayField playField = new PlayField(this);
+	public UserInterface ui = new UserInterface(this);
 	public boolean gameOver = false;
 	public boolean youWon = false;
 	
