@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -31,6 +32,7 @@ public class UserInterface {
 		GridLayout layout = new GridLayout(8,8);
 		mainComponent = new JPanel(layout);
 		playField = controller.generatePlayfield();
+		playField = controller.generateMines();
 		addFieldsToMainComponent();
 		window.add(mainComponent);
 		window.pack();
@@ -41,20 +43,13 @@ public class UserInterface {
 	private void addFieldsToMainComponent() {
 		for(int i = 0; i < 8; i++)
 		{
-			for(Field f: playField.fields[i])
+			for(Field f: playField.fields[i]) {
 				mainComponent.add(f);
+			}
 		}
 	}
 	
-	public void showFieldAlreadyUncovered(boolean uncovered) {
-		if (uncovered == true) {
-			JSpinner jspinner = new JSpinner();
-			JTextField jteaxtfield = new JTextField();
-			jspinner.isShowing();
-			jteaxtfield.setText("Das Feld wurde Bereits aufgedeckt bitte wählen Sie ein Anderes");
-			jspinner.add(jteaxtfield);
-		}
-	}
+
 	
 	public void showField(Field field) {
 		field.setBackground(Color.blue);
@@ -68,11 +63,24 @@ public class UserInterface {
 		field.setBackground(Color.YELLOW);
 	}
 	
+	//zeigt das Label nicht an???
 	public void showGameOver() {
-		//ausgabe verlohren
+		JLabel label = new JLabel();
+		label.setSize(200, 200);
+		label.setText("GameOver!!!");
+		label.setBackground(Color.WHITE);
+		label.setVisible(true);
+		mainComponent.add(label);
+		System.out.println("GAMEOVER");
 	}
 	
 	public void showYouWon() {
-		//ausgab du hast gewonnen
+		JLabel label = new JLabel();
+		label.setSize(200, 200);
+		label.setText("You Won!!!");
+		label.setBackground(Color.WHITE);
+		label.setVisible(true);
+		mainComponent.add(label);
+		System.out.println("You Won");
 	}
 }

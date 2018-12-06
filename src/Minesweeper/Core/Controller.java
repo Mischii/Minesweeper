@@ -34,13 +34,19 @@ public class Controller {
 	}
 	
 	public void checkClick(Field field) {
-		if(playField.checkStateUncovered(field.getX(), field.getY()) == true) {
-			if(gameOver == false) {
-				field.setCovered(false);
+		if(playField.checkStateUncovered(field.getXCoord(), field.getYCoord()) == true) {
+			field.setCovered(false);//damit beim cklick auf das letste feld schon gameOver ausgegeben wird
+			if(gameOver(field) == false) {
+				//field.setCovered(false);
 				ui.showField(field);
 				uncoverNeighbout(field);
+			}else if(youWon == true){
+				ui.showYouWon();
+			}else {
+				ui.showGameOver();
 			}
 		}
+		
 	}
 	
 	private void uncoverNeighbout(Field field) {
@@ -50,20 +56,25 @@ public class Controller {
 		
 	}
 
-	public void gameOver(Field field) {
+	//hat einen Fehler
+	public boolean gameOver(Field field) {
 		if(allFieldsUncovered(playField) == 56) {
 			gameOver = true;
 			youWon = true;
 		}else if(field.isMine() == true ) {
 			gameOver = true;
 		}
+		else {
+			gameOver = false;
+		}
+		return gameOver;
 	}
 	
 	private int allFieldsUncovered(PlayField pf) {
 		int counter = 0;
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(pf.checkStateUncovered(i, j) == true) {
+				if(pf.checkStateUncovered(i, j) == false) {
 					counter++;
 				}
 			}
@@ -73,6 +84,6 @@ public class Controller {
 	
 
 	public void tagSelectedField(Field field) {
-		ui.showATaggedField(playField.tagAField(field.getX(), field.getY()));
+		ui.showATaggedField(playField.tagAField(field.getXCoord(), field.getYCoord()));
 	}
 }

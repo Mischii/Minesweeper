@@ -8,13 +8,10 @@ public class Minesweeper {
 		// TODO Auto-generated method stub
 
 		Controller controller = new Controller();
-		controller.generatePlayfield();
-		controller.generateMines();
+		//controller.generatePlayfield();
+		//controller.generateMines();
 		UserInterface ui = new UserInterface(controller);
 		ui.createUI();
-		/*while(controller.gameOver == false) {
-			//checkClick();
-		}*/
 	}
 
 }
