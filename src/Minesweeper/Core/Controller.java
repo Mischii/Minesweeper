@@ -39,7 +39,10 @@ public class Controller {
 			if(gameOver(field) == false) {
 				//field.setCovered(false);
 				ui.showField(field);
-				uncoverNeighbout(field);
+				checkNearbyMines(field.getX(), field.getY());
+				if(playField.getNeighbourMinesCounter(field.getX(), field.getY()) == 0) {
+					uncoverNeighbour(field.getX(), field.getY(), field);
+				}
 			}else if(youWon == true){
 				ui.showYouWon();
 			}else {
@@ -49,16 +52,52 @@ public class Controller {
 		
 	}
 	
-	private void uncoverNeighbout(Field field) {
-		//Nachbaren Aufdecken
-		//ui.showField(field);
-		//ui.showNeighbour(field)
+	private void checkNearbyMines(int x, int y) {
+		int mine = 0;
+		for (int i = -1 + x; i <= 1 + x; i++)
+        {
+            for (int j = -1 + y; j <= 1 + y; j++)
+            {
+                if (!(x == i && y == j))
+                {
+                    if (playField.checkStateIsMine(x, y) == true)
+                    {
+                        mine++;
+                    }
+                }
+            }
+        }
+		playField.setNeighbourMinesCounter(x, y, mine);
+		System.out.println("X: " + x + " Y: " + " mine " + mine);
+	}
+
+	private void uncoverNeighbour(int x, int y, Field field) {
+		for (int i = -1 + x; i <= 1 + x; i++)
+        {
+            for (int j = -1 + y; j <= 1 + y; j++)
+            {
+                if (!(x == i && y == j))
+                {
+                    if (playField.checkStateIsMine(x, y) == true)
+                    {
+                        checkNearbyMines(i,j);
+                        playField.setStateUncovered(x, y);
+                        ui.showField(field);
+                		ui.showNeighbour(field);
+                        if (playField.getNeighbourMinesCounter(x, y) == 0)
+                        {
+                        	uncoverNeighbour(i,j,field);
+                        }
+                    }
+                }
+            }
+        }
 		
 	}
 
 	//hat einen Fehler
 	public boolean gameOver(Field field) {
-		if(allFieldsUncovered(playField) == 56) {
+		if(allFieldsUncovered(playField) == 56 && allMinesTaged(playField) == 8) {
 			gameOver = true;
 			youWon = true;
 		}else if(field.isMine() == true ) {
@@ -70,6 +109,18 @@ public class Controller {
 		return gameOver;
 	}
 	
+	private int allMinesTaged(PlayField pf) {
+		int counter = 0;
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(pf.checkStateTaged(i, j) == false) {
+					counter++;
+				}
+			}
+		}
+		return counter;
+	}
+
 	private int allFieldsUncovered(PlayField pf) {
 		int counter = 0;
 		for(int i = 0; i < 8; i++) {

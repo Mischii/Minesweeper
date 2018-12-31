@@ -6,10 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 
 import Minesweeper.Core.Controller;
 import Minesweeper.Core.Field;
@@ -21,6 +19,7 @@ public class UserInterface {
 	public JPanel mainComponent = new JPanel();
 	private PlayField playField;
 	private Controller controller;
+	public MessageWindow mw = new MessageWindow();
 	
 	public UserInterface(Controller ctrl) {
 		controller = ctrl;
@@ -63,24 +62,12 @@ public class UserInterface {
 		field.setBackground(Color.YELLOW);
 	}
 	
-	//zeigt das Label nicht an???
+	
 	public void showGameOver() {
-		JLabel label = new JLabel();
-		label.setSize(200, 200);
-		label.setText("GameOver!!!");
-		label.setBackground(Color.WHITE);
-		label.setVisible(true);
-		mainComponent.add(label);
-		System.out.println("GAMEOVER");
+		mw.showGameEnd("Game over");
 	}
 	
 	public void showYouWon() {
-		JLabel label = new JLabel();
-		label.setSize(200, 200);
-		label.setText("You Won!!!");
-		label.setBackground(Color.WHITE);
-		label.setVisible(true);
-		mainComponent.add(label);
-		System.out.println("You Won");
+		mw.showGameEnd("You won!");
 	}
 }

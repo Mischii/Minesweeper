@@ -1,6 +1,5 @@
 package Minesweeper.Core;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -51,6 +50,19 @@ public class PlayField {
 		fields[x][y].setText("mine");
 		return fields[x][y];
 	}
+	
+	public Field setStateUncovered(int x, int y) {
+		fields[x][y].setCovered(false);
+		return fields[x][y];
+	}
+	
+	public void setNeighbourMinesCounter(int x, int y, int mines) {
+		fields[x][y].setCountNeignbourMines(mines);
+	}
+	
+	public int getNeighbourMinesCounter(int x, int y) {
+		return fields[x][y].getCountNeignbourMines();
+	}
 
 	public Field tagAField(int x, int y) {
 		fields[x][y].setTagged(true);
@@ -65,4 +77,19 @@ public class PlayField {
 		}
 	}
 
+	public boolean checkStateTaged(int x, int y) {
+		if (fields[x][y].isTagged() == false) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public boolean checkStateIsMine(int x, int y) {
+		if (fields[x][y].isMine() == false) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }
