@@ -36,7 +36,7 @@ public class Controller {
 	public void checkClick(Field field) {
 		if(playField.checkStateUncovered(field.getXCoord(), field.getYCoord()) == true) {
 			field.setCovered(false);//damit beim cklick auf das letste feld schon gameOver ausgegeben wird
-			if(gameOver(field) == false) {
+			if(isGameOver(field) == false) {
 				//field.setCovered(false);
 				ui.showField(field);
 				checkNearbyMines(field.getX(), field.getY());
@@ -96,7 +96,7 @@ public class Controller {
 	}
 
 	//hat einen Fehler
-	public boolean gameOver(Field field) {
+	public boolean isGameOver(Field field) {
 		if(allFieldsUncovered(playField) == 56 && allMinesTaged(playField) == 8) {
 			gameOver = true;
 			youWon = true;
