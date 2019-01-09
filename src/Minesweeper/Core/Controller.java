@@ -1,4 +1,8 @@
 package Minesweeper.Core;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import Minesweeper.UI.UserInterface;
@@ -22,45 +26,47 @@ public class Controller {
 	
 	public PlayField generateMines() {
 		Random r = new Random();
-		
+		int randomX = r.nextInt(8);
+		int randomY = r.nextInt(8);
 		for(int i = 0; i < 8; i++) {
-			int randomX = r.nextInt(8);
-			int randomY = r.nextInt(8);
-			
+			while(playField.checkStateIsMine(randomX, randomY))
+			{
+				randomX = r.nextInt(8);
+				randomY = r.nextInt(8);
+			}
 			playField.setMineInPlayField(randomX, randomY);
-			System.out.println("Mine: " + randomX + randomY);
 		}
 		return playField;
 	}
 	
 	public void checkClick(Field field) {
-		if(playField.checkStateUncovered(field.getXCoord(), field.getYCoord()) == true) {
+		if(playField.checkStateCovered(field.getXCoord(), field.getYCoord())) {
 			field.setCovered(false);//damit beim cklick auf das letste feld schon gameOver ausgegeben wird
-			if(isGameOver(field) == false) {
+			if(!field.isMine()) {
 				//field.setCovered(false);
 				ui.showField(field);
-				checkNearbyMines(field.getX(), field.getY());
-				if(playField.getNeighbourMinesCounter(field.getX(), field.getY()) == 0) {
-					uncoverNeighbour(field.getX(), field.getY(), field);
-				}
-			}else if(youWon == true){
-				ui.showYouWon();
+				if(checkGameOverWin())
+					return;
+				checkNearbyMines(field.getXCoord(), field.getYCoord());
+				ui.showNeighbour(field);
+				uncoverNeighbour(field.getXCoord(), field.getYCoord());
 			}else {
 				ui.showGameOver();
 			}
 		}
-		
 	}
 	
 	private void checkNearbyMines(int x, int y) {
 		int mine = 0;
-		for (int i = -1 + x; i <= 1 + x; i++)
+		for (int i = x-1; i <= x+1; i++)
         {
-            for (int j = -1 + y; j <= 1 + y; j++)
+            for (int j = y-1; j <= y+1; j++)
             {
-                if (!(x == i && y == j))
+                if (!(x == i && y == j) &&
+            		(i >= 0 && i < playField.fields.length) && 
+            		(j >= 0 && j < playField.fields.length))
                 {
-                    if (playField.checkStateIsMine(x, y) == true)
+                    if (playField.checkStateIsMine(i, j))
                     {
                         mine++;
                     }
@@ -68,52 +74,51 @@ public class Controller {
             }
         }
 		playField.setNeighbourMinesCounter(x, y, mine);
-		System.out.println("X: " + x + " Y: " + " mine " + mine);
 	}
 
-	private void uncoverNeighbour(int x, int y, Field field) {
-		for (int i = -1 + x; i <= 1 + x; i++)
+	private void uncoverNeighbour(int x, int y) {
+		if(playField.getNeighbourMinesCounter(x, y) > 0)
+			return;
+		for (int i = x-1; i <= x+1; i++)
         {
-            for (int j = -1 + y; j <= 1 + y; j++)
+            for (int j = y-1; j <= y+1; j++)
             {
-                if (!(x == i && y == j))
+            	if (!(x == i && y == j) &&
+                		(i >= 0 && i < playField.fields.length) && 
+                		(j >= 0 && j < playField.fields.length))
                 {
-                    if (playField.checkStateIsMine(x, y) == true)
+                    if (!playField.checkStateIsMine(i, j) && playField.checkStateCovered(i, j))
                     {
                         checkNearbyMines(i,j);
-                        playField.setStateUncovered(x, y);
-                        ui.showField(field);
-                		ui.showNeighbour(field);
-                        if (playField.getNeighbourMinesCounter(x, y) == 0)
-                        {
-                        	uncoverNeighbour(i,j,field);
-                        }
+                        playField.setStateUncovered(i, j);
+                        ui.showField(playField.getFieldByCoordinates(i, j));
+                		ui.showNeighbour(playField.getFieldByCoordinates(i, j));
+                        uncoverNeighbour(i,j);
                     }
                 }
             }
         }
-		
+		checkGameOverWin();
 	}
+	
+	public boolean checkGameOverWin()
+	{
+		System.out.println("Uncovered fields: " + allFieldsUncovered(playField));
+		System.out.println("Tagged mines: " + allMinesTaged(playField));
 
-	//hat einen Fehler
-	public boolean isGameOver(Field field) {
-		if(allFieldsUncovered(playField) == 56 && allMinesTaged(playField) == 8) {
-			gameOver = true;
-			youWon = true;
-		}else if(field.isMine() == true ) {
-			gameOver = true;
+		if(allFieldsUncovered(playField) == 56 && allMinesTaged(playField) == 8)
+		{
+			ui.showYouWon();
+			return true;
 		}
-		else {
-			gameOver = false;
-		}
-		return gameOver;
+		return false;
 	}
 	
 	private int allMinesTaged(PlayField pf) {
 		int counter = 0;
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(pf.checkStateTaged(i, j) == false) {
+				if(pf.checkStateTaged(i, j)) {
 					counter++;
 				}
 			}
@@ -125,7 +130,7 @@ public class Controller {
 		int counter = 0;
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(pf.checkStateUncovered(i, j) == false) {
+				if(pf.checkStateCovered(i, j) == false) {
 					counter++;
 				}
 			}
@@ -136,5 +141,6 @@ public class Controller {
 
 	public void tagSelectedField(Field field) {
 		ui.showATaggedField(playField.tagAField(field.getXCoord(), field.getYCoord()));
+		checkGameOverWin();
 	}
 }

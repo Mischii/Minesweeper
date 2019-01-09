@@ -69,12 +69,8 @@ public class PlayField {
 		return fields[x][y];
 	}
 
-	public boolean checkStateUncovered(int x, int y) {
-		if (fields[x][y].isCovered() == false) {
-			return false;
-		} else {
-			return true;
-		}
+	public boolean checkStateCovered(int x, int y) {
+		return fields[x][y].isCovered();
 	}
 
 	public boolean checkStateTaged(int x, int y) {
@@ -86,10 +82,20 @@ public class PlayField {
 	}
 	
 	public boolean checkStateIsMine(int x, int y) {
-		if (fields[x][y].isMine() == false) {
-			return false;
-		} else {
-			return true;
+		return fields[x][y].isMine();
+	}
+	
+	public Field getFieldByCoordinates(int x, int y) {
+		for(int i = 0; i <= 8; i++)
+		{
+			for(int j = 0; j <= 8; j++)
+			{
+				if(i == x && j == y)
+				{
+					return fields[x][y];
+				}
+			}
 		}
+		return null;
 	}
 }
