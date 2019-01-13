@@ -56,6 +56,7 @@ public class UserInterface {
 	}
 	
 	public void showNeighbour(Field field) {
+		field.setForeground(Color.WHITE);
 		field.setText(Integer.toString(field.getCountNeignbourMines()));
 	}
 	

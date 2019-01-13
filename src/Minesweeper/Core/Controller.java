@@ -49,7 +49,7 @@ public class Controller {
 					return;
 				checkNearbyMines(field.getXCoord(), field.getYCoord());
 				ui.showNeighbour(field);
-				uncoverNeighbour(field.getXCoord(), field.getYCoord());
+				uncoverNeighbours(field.getXCoord(), field.getYCoord());
 			}else {
 				ui.showGameOver();
 			}
@@ -76,7 +76,7 @@ public class Controller {
 		playField.setNeighbourMinesCounter(x, y, mine);
 	}
 
-	private void uncoverNeighbour(int x, int y) {
+	private void uncoverNeighbours(int x, int y) {
 		if(playField.getNeighbourMinesCounter(x, y) > 0)
 			return;
 		for (int i = x-1; i <= x+1; i++)
@@ -93,7 +93,7 @@ public class Controller {
                         playField.setStateUncovered(i, j);
                         ui.showField(playField.getFieldByCoordinates(i, j));
                 		ui.showNeighbour(playField.getFieldByCoordinates(i, j));
-                        uncoverNeighbour(i,j);
+                        uncoverNeighbours(i,j);
                     }
                 }
             }
@@ -103,8 +103,9 @@ public class Controller {
 	
 	public boolean checkGameOverWin()
 	{
-		System.out.println("Uncovered fields: " + allFieldsUncovered(playField));
-		System.out.println("Tagged mines: " + allMinesTaged(playField));
+		//System.out.println("Uncovered fields: " + allFieldsUncovered(playField));
+		//System.out.println("Tagged mines: " + allMinesTaged(playField));
+		//System.out.println("number         " + (playFieldSize * playFieldSize - numberOfMines));
 
 		if(allFieldsUncovered(playField) == 56 && allMinesTaged(playField) == 8)
 		{

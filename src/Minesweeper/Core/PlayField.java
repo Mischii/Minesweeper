@@ -47,7 +47,7 @@ public class PlayField {
 
 	public Field setMineInPlayField(int x, int y) {
 		fields[x][y].setMine(true);
-		fields[x][y].setText("mine");
+		//fields[x][y].setText("mine");
 		return fields[x][y];
 	}
 	
