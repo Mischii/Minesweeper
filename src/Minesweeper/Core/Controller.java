@@ -116,10 +116,7 @@ public class Controller {
 	
 	public boolean checkGameOverWin()
 	{
-		System.out.println("Uncovered fields: " + allFieldsUncovered(playField));
-		//System.out.println("Tagged mines: " + allMinesTaged(playField));
-
-		if(allMinesTagged()) //Alt von Mischi 10.01.2019 if(allFieldsUncovered(playField) == 56 && allMinesTaged(playField) == 8)
+		if(allMinesTagged()) 
 		{
 			ui.showYouWon();
 			return true;
@@ -138,19 +135,6 @@ public class Controller {
 		}
 		return allTagged;
 	}
-
-	private int allFieldsUncovered(PlayField pf) {
-		int counter = 0;
-		for(int i = 0; i < 8; i++) {
-			for(int j = 0; j < 8; j++) {
-				if(pf.checkStateCovered(i, j) == false) {
-					counter++;
-				}
-			}
-		}
-		return counter;
-	}
-	
 
 	public void tagSelectedField(Field field) {
 		if(field.isCovered() == true) {
