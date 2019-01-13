@@ -66,7 +66,7 @@ public class Controller {
 	private void countNearbyMinesAndSetCounter(Field field) {
 		int minesCount = 0;
 		for(Field neighbour: playField.getNeighbours(field)) {
-			if (!neighbour.isMine() && neighbour.isCovered()) {
+			if (neighbour.isMine() && neighbour.isCovered()) {
 				minesCount++;
 			}
 		}
