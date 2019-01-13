@@ -53,15 +53,19 @@ public class UserInterface {
 	
 	public void showField(Field field) {
 		field.setBackground(Color.blue);
+		field.setForeground(Color.WHITE);
 	}
 	
 	public void showNeighbour(Field field) {
-		field.setForeground(Color.WHITE);
 		field.setText(Integer.toString(field.getCountNeignbourMines()));
 	}
 	
 	public void showATaggedField(Field field) {
-		field.setBackground(Color.YELLOW);
+		if(field.isTagged() ) {
+			field.setBackground(Color.YELLOW);
+		} else {
+			field.setBackground(Color.BLACK);
+		}
 	}
 	
 	
@@ -73,3 +77,4 @@ public class UserInterface {
 		mw.showGameEnd("You won!");
 	}
 }
+

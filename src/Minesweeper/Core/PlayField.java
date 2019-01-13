@@ -23,15 +23,15 @@ public class PlayField {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
 				if (SwingUtilities.isRightMouseButton(e)) {
 					controller.tagSelectedField(fields[x][y]);
 				} else if (SwingUtilities.isLeftMouseButton(e)) {
 					controller.checkClick(fields[x][y]);
 				}
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
 			}
 
 			@Override
@@ -47,7 +47,7 @@ public class PlayField {
 
 	public Field setMineInPlayField(int x, int y) {
 		fields[x][y].setMine(true);
-		//fields[x][y].setText("mine");
+		fields[x][y].setText("mine");
 		return fields[x][y];
 	}
 	
@@ -65,7 +65,7 @@ public class PlayField {
 	}
 
 	public Field tagAField(int x, int y) {
-		fields[x][y].setTagged(true);
+		fields[x][y].setTagged(!fields[x][y].isTagged());
 		return fields[x][y];
 	}
 
@@ -99,3 +99,4 @@ public class PlayField {
 		return null;
 	}
 }
+

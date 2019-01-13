@@ -9,3 +9,4 @@ public class MessageWindow extends JOptionPane{
 		JOptionPane.showMessageDialog(null, winner);
 	}
 }
+

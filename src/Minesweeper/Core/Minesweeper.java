@@ -10,5 +10,4 @@ public class Minesweeper {
 		UserInterface ui = new UserInterface(controller);
 		ui.createUI();
 	}
-
 }

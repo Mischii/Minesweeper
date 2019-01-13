@@ -53,3 +53,4 @@ public class Field extends JButton{
 		this.countNeignbourMines = countNeignbourMines;
 	}
 }
+
