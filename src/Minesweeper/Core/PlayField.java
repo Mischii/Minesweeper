@@ -15,7 +15,10 @@ public class PlayField {
 	}
 
 	public Field createField(int x, int y) {
-		fields.get(x).set(y, new Field(x, y));
+		if(fields.size() <= x) {
+			fields.add(new ArrayList<>());
+		}
+		fields.get(x).add(new Field(x, y));
 		fields.get(x).get(y).addMouseListener(
 				new FieldMouseListener(getFieldByCoordinates(x, y), controller));
 		return fields.get(x).get(y);
@@ -59,20 +62,22 @@ public class PlayField {
 			neighbours.add(getFieldByCoordinates(x-1,y));
 			if(y > 0)
 				neighbours.add(getFieldByCoordinates(x-1,y-1));
-			if(y < DIMENSIONS)
+			if(y < DIMENSIONS - 1)
 				neighbours.add(getFieldByCoordinates(x-1,y+1));
 		}
 
-		if(x < DIMENSIONS)
+		if(x < DIMENSIONS - 1)
 		{
 			neighbours.add(getFieldByCoordinates(x+1,y));
 			if(y > 0)
 				neighbours.add(getFieldByCoordinates(x+1,y-1));
-			if(y < DIMENSIONS)
+			if(y < DIMENSIONS - 1)
 				neighbours.add(getFieldByCoordinates(x+1,y+1));
 		}
-		neighbours.add(getFieldByCoordinates(x,y-1));
-		neighbours.add(getFieldByCoordinates(x,y+1));
+		if(y > 0)
+			neighbours.add(getFieldByCoordinates(x,y-1));
+		if(y < DIMENSIONS - 1)
+			neighbours.add(getFieldByCoordinates(x,y+1));
 		return neighbours;
 	}
 }
