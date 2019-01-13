@@ -36,7 +36,7 @@ public class PlayField {
 	}
 	
 	public Field getFieldByCoordinates(int x, int y) {
-		if(x >= 0 && x <= DIMENSIONS && y >= 0 && y <= DIMENSIONS)
+		if(x >= 0 && x <= DIMENSIONS - 1 && y >= 0 && y <= DIMENSIONS - 1)
 			return fields.get(x).get(y);
 		return null;
 	}
@@ -55,30 +55,23 @@ public class PlayField {
 
 	public List<Field> getNeighbours(Field field) {
 		List<Field> neighbours = new ArrayList<>();
+		List<Field> definitiveNeighbours = new ArrayList<>();
 		int x = field.getXCoordinate();
 		int y = field.getYCoordinate();
-		if(x > 0)
+		neighbours.add(getFieldByCoordinates(x-1,y));
+		neighbours.add(getFieldByCoordinates(x-1,y-1));
+		neighbours.add(getFieldByCoordinates(x-1,y+1));
+		neighbours.add(getFieldByCoordinates(x,y-1));
+		neighbours.add(getFieldByCoordinates(x,y+1));
+		neighbours.add(getFieldByCoordinates(x+1,y));
+		neighbours.add(getFieldByCoordinates(x+1,y-1));
+		neighbours.add(getFieldByCoordinates(x+1,y+1));
+		for(Field neighbour: neighbours)
 		{
-			neighbours.add(getFieldByCoordinates(x-1,y));
-			if(y > 0)
-				neighbours.add(getFieldByCoordinates(x-1,y-1));
-			if(y < DIMENSIONS - 1)
-				neighbours.add(getFieldByCoordinates(x-1,y+1));
+			if(neighbour != null)
+				definitiveNeighbours.add(neighbour);
 		}
-
-		if(x < DIMENSIONS - 1)
-		{
-			neighbours.add(getFieldByCoordinates(x+1,y));
-			if(y > 0)
-				neighbours.add(getFieldByCoordinates(x+1,y-1));
-			if(y < DIMENSIONS - 1)
-				neighbours.add(getFieldByCoordinates(x+1,y+1));
-		}
-		if(y > 0)
-			neighbours.add(getFieldByCoordinates(x,y-1));
-		if(y < DIMENSIONS - 1)
-			neighbours.add(getFieldByCoordinates(x,y+1));
-		return neighbours;
+		return definitiveNeighbours;
 	}
 }
 
