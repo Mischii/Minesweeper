@@ -4,9 +4,8 @@ import javax.swing.JOptionPane;
 
 public class MessageWindow extends JOptionPane{
 
-	public void showGameEnd (String winner) {
-		
-		JOptionPane.showMessageDialog(null, winner);
+	public void showGameEndMessage(String message) {
+		JOptionPane.showMessageDialog(null, message);
 	}
 }
 

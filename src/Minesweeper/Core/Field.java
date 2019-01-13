@@ -10,22 +10,22 @@ public class Field extends JButton{
 	private boolean covered = true;
 	private boolean mine = false;
 	private boolean tagged = false;
-	private int countNeignbourMines = 0;
-	private int x, y;
+	private int neighbourMinesCount = 0;
+	private int xCoordinate, yCoordinate;
 	
 	public Field(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.xCoordinate = x;
+		this.yCoordinate = y;
 		this.setPreferredSize(new Dimension(100, 100));
 		this.setBackground(Color.BLACK);
 	}
 	
-	public int getXCoord() {
-		return x;
+	public int getXCoordinate() {
+		return xCoordinate;
 	}
 
-	public int getYCoord() {
-		return y;
+	public int getYCoordinate() {
+		return yCoordinate;
 	}
 
 	public boolean isCovered() {
@@ -46,11 +46,11 @@ public class Field extends JButton{
 	public void setTagged(boolean tagged) {
 		this.tagged = tagged;
 	}
-	public int getCountNeignbourMines() {
-		return countNeignbourMines;
+	public int getNeighbourMinesCount() {
+		return neighbourMinesCount;
 	}
-	public void setCountNeignbourMines(int countNeignbourMines) {
-		this.countNeignbourMines = countNeignbourMines;
+	public void setNeighbourMinesCount(int neighbourMinesCount) {
+		this.neighbourMinesCount = neighbourMinesCount;
 	}
 }
 

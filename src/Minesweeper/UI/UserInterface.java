@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Minesweeper.Core.Controller;
@@ -19,19 +18,21 @@ public class UserInterface {
 	public JPanel mainComponent = new JPanel();
 	private PlayField playField;
 	private Controller controller;
-	public MessageWindow mw = new MessageWindow();
-	
-	public UserInterface(Controller ctrl) {
+	public MessageWindow messageWindow = new MessageWindow();
+	private final int PLAYFIELD_DIMENSION;
+
+
+	public UserInterface(Controller ctrl, int dimensions) {
 		controller = ctrl;
+		PLAYFIELD_DIMENSION = dimensions;
 	}
 	
 	public void createUI() {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLayout(new FlowLayout());
-		GridLayout layout = new GridLayout(8,8);
+		GridLayout layout = new GridLayout(PLAYFIELD_DIMENSION,PLAYFIELD_DIMENSION);
 		mainComponent = new JPanel(layout);
-		playField = controller.generatePlayfield();
-		playField = controller.generateMines();
+		playField = controller.startGameAndReturnPlayField();
 		addFieldsToMainComponent();
 		window.add(mainComponent);
 		window.pack();
@@ -40,27 +41,27 @@ public class UserInterface {
 	}
 	
 	private void addFieldsToMainComponent() {
-		for(int i = 0; i < 8; i++)
+		for(int i = 0; i < PLAYFIELD_DIMENSION; i++)
 		{
-			for(int j = 0; j < 8; j++)
+			for(int j = 0; j < PLAYFIELD_DIMENSION; j++)
 			{
-				mainComponent.add(playField.fields[j][i]);
+				mainComponent.add(playField.fields.get(j).get(i));
 			}
 		}
 	}
 	
 
 	
-	public void showField(Field field) {
+	public void uncoverField(Field field) {
 		field.setBackground(Color.blue);
 		field.setForeground(Color.WHITE);
 	}
 	
-	public void showNeighbour(Field field) {
-		field.setText(Integer.toString(field.getCountNeignbourMines()));
+	public void showNeighbourMinesCount(Field field) {
+		field.setText(Integer.toString(field.getNeighbourMinesCount()));
 	}
 	
-	public void showATaggedField(Field field) {
+	public void tagField(Field field) {
 		if(field.isTagged() ) {
 			field.setBackground(Color.YELLOW);
 		} else {
@@ -69,12 +70,12 @@ public class UserInterface {
 	}
 	
 	
-	public void showGameOver() {
-		mw.showGameEnd("Game over");
+	public void showGameOverMessage() {
+		messageWindow.showGameEndMessage("Game over");
 	}
 	
-	public void showYouWon() {
-		mw.showGameEnd("You won!");
+	public void showYouWonMessage() {
+		messageWindow.showGameEndMessage("You won!");
 	}
 }
 
