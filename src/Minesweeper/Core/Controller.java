@@ -106,7 +106,7 @@ public class Controller {
 	public void tagField(Field field) {
 		if(field.isCovered()) {
 			playField.tagField(field);
-			userInterface.tagField(playField.getFieldByCoordinates(field.getXCoordinate(), field.getYCoordinate()));
+			userInterface.tagField(field);
 			checkIfPlayerWon();
 		}
 	}
